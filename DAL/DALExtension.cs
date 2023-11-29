@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DAL.Repositories.Implementations.MariaDB;
+using DAL.Repositories.Interfaces;
+using DAL.Sessions.Implementations;
+using DAL.Sessions.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DAL;
 
@@ -17,6 +21,10 @@ public static class DALExtension
 
 
         //Register your services here
+
+        services.AddScoped<IDBSession, DBSessionMariaDB>();
+
+        services.AddTransient<IBookRepository, BookRepositoryMariaDB>();
 
         return services;
     }
