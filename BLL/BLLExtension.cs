@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DAL;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BLL;
 
@@ -16,7 +17,12 @@ public static class BLLExtension
         configure?.Invoke(options);
 
         
-        //Register your services here
+        //Register your BLL services here
+
+
+        //Register DAL services
+        services.AddDAL();
+
 
         return services;
     }

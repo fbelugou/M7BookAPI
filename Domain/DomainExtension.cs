@@ -10,7 +10,7 @@ public class DomainOptions
 public static class DomainExtension
 {
 
-    public static IServiceCollection AddBLL(this IServiceCollection services, Action<DomainOptions>? configure = null)
+    public static IServiceCollection AddDomain(this IServiceCollection services, Action<DomainOptions>? configure = null)
     {
         DomainOptions options = new();
         configure?.Invoke(options);

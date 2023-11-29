@@ -14,7 +14,7 @@ public class DALOptions
 public static class DALExtension
 {
 
-    public static IServiceCollection AddBLL(this IServiceCollection services, Action<DALOptions>? configure = null)
+    public static IServiceCollection AddDAL(this IServiceCollection services, Action<DALOptions>? configure = null)
     {
         DALOptions options = new();
         configure?.Invoke(options);
