@@ -1,4 +1,6 @@
-﻿using DAL;
+﻿using BLL.Implementations;
+using BLL.Interfaces;
+using DAL;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BLL;
@@ -18,7 +20,7 @@ public static class BLLExtension
 
         
         //Register your BLL services here
-
+        services.AddTransient<IBookStoreService, BookStoreService>();
 
         //Register DAL services
         services.AddDAL();

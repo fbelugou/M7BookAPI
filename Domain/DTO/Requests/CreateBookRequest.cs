@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Domain;
+namespace Domain.DTO.Requests;
 
 /// <summary>
 /// Create book request Data Transfer Object

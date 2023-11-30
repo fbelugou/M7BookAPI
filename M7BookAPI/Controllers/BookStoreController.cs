@@ -1,4 +1,8 @@
-﻿using Domain;
+﻿using BLL.Interfaces;
+using Domain;
+using Domain.DTO.Requests;
+using Domain.DTO.Responses;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace M7BookAPI.Controllers;
@@ -8,14 +12,21 @@ namespace M7BookAPI.Controllers;
 /// </summary>
 public class BookStoreController : APIBaseController
 {
+    private readonly IBookStoreService _bookStoreService;
+
+    public BookStoreController(IBookStoreService bookStoreService)
+    {
+        _bookStoreService = bookStoreService;       
+    }
 
     /// <summary>
     /// Get all Books
     /// </summary>
     /// <returns>Returns all books on API</returns>
-    public Task<IActionResult> GetAll()
+    [HttpGet("books")]
+    public async Task<IActionResult> GetAll()
     {
-        return Task.FromResult<IActionResult>(Ok());
+       return Ok(await _bookStoreService.GetBooksAsync());
     }
 
     /// <summary>
@@ -23,9 +34,25 @@ public class BookStoreController : APIBaseController
     /// </summary>
     /// <param name="id">Unique identifier</param>
     /// <returns></returns>
-    public Task<IActionResult> Get(int id)
+    [HttpGet("books/{id}")]
+    public async Task<IActionResult> Get(int id)
     {
-        return Task.FromResult<IActionResult>(Ok());
+        if(id <= 0) return BadRequest();
+
+        var book = await _bookStoreService.GetBookByIdAsync(id);
+
+        if (book is null) return NotFound();
+
+        //DTO Response
+        var response = new BookResponse
+        {
+            Id = book.Id,
+            ISBN = book.ISBN,
+            Titre = book.Titre,
+            Description = book.Description,
+            AuthorId = book.AuthorId
+        };
+        return Ok(response);
     }
 
     /// <summary>
@@ -34,10 +61,30 @@ public class BookStoreController : APIBaseController
     /// <param name="book">Book to Add</param>
     /// <returns></returns>
     [HttpPost("books")]
-    public Task<IActionResult> Post([FromBody] CreateBookRequest CreateBookRequest)
+    public async Task<IActionResult> Post([FromBody] CreateBookRequest CreateBookRequest)
     {
+        var book = new Book()
+        {
+            AuthorId = CreateBookRequest.AuthorId.GetValueOrDefault(),
+            Description = CreateBookRequest.Description,
+            ISBN = CreateBookRequest.ISBN,
+            Titre = CreateBookRequest.Title
+        };
 
-        return Task.FromResult<IActionResult>(Ok());
+        //business logic
+        var result = await _bookStoreService.AddBookAsync(book);
+        //DTO Response
+        var response = new CreateBookResponse
+        {
+            Id = result.Id,
+            ISBN = result.ISBN,
+            Titre = result.Titre,
+            Description = result.Description,
+            AuthorId = result.AuthorId
+        };
+
+
+        return CreatedAtAction(nameof(Get),new {id = response.Id}, response);
     }
 
     /// <summary>

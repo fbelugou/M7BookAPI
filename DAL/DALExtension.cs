@@ -6,9 +6,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DAL;
 
+public enum DBType
+{
+    MariaDB,
+    SQLServer,
+    PostgreSQL,
+    Oracle
+}
+
 public class DALOptions
 {
     //Here you can add your custom options
+    public DBType DBType { get; set; } = DBType.MariaDB;
+    public string DBConnectionString { get; set; }
 }
 
 public static class DALExtension
@@ -21,11 +31,29 @@ public static class DALExtension
 
 
         //Register your services here
+        services.AddScoped<IDBSession>((services) => {
+            
+            switch(options.DBType)
+            {
+                case DBType.MariaDB:
+                  //  return new DBSessionMariaDB(options.DBConnectionString);
+                case DBType.SQLServer:
+                  //  return new DBSessionSQLServer(options.DBConnectionString);
+                case DBType.PostgreSQL:
+                  //   return new DBSessionPostgreSQL(options.DBConnectionString);
+                case DBType.Oracle:
+                  //  return new DBSessionOracle(options.DBConnectionString);
+                default:
+                  //  return new DBSessionMariaDB(options.DBConnectionString);
 
-        services.AddScoped<IDBSession, DBSessionMariaDB>();
+                  // Stub for now
+                    return new DBSessionMariaDB(options.DBConnectionString);
+
+            }   
+        });
 
         services.AddTransient<IBookRepository, BookRepositoryMariaDB>();
-
+        services.AddTransient<IAuthorRepository, AuthorRepositoryMariaDB>();
         return services;
     }
 }
