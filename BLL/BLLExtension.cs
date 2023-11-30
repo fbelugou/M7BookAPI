@@ -11,7 +11,7 @@ public class BLLOptions
 public static class BLLExtension
 {
 
-    public static IServiceCollection AddBLL(this IServiceCollection services, Action<BLLOptions>? configure = null)
+    public static IServiceCollection AddBLL(this IServiceCollection services, Action<BLLOptions> configure = null)
     {
         BLLOptions options = new();
         configure?.Invoke(options);

@@ -7,10 +7,10 @@
 
   <ItemGroup>
     <Folder Include="DTO\Responses\" />
-    <Folder Include="DTO\Requests\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
