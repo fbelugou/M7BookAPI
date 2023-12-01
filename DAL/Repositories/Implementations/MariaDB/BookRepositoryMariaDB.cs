@@ -1,9 +1,16 @@
 ﻿using DAL.Repositories.Interfaces;
+using DAL.Sessions.Interfaces;
 using Domain.Entities;
 
 namespace DAL.Repositories.Implementations.MariaDB;
 internal class BookRepositoryMariaDB : IBookRepository
 {
+    private readonly IDBSession db;
+
+    public BookRepositoryMariaDB(IDBSession dBSession)
+    {
+        db= dBSession;
+    }
     public Task<Book> AddAsync(Book entity)
     {
         throw new NotImplementedException();

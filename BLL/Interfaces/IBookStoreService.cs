@@ -5,6 +5,11 @@ public interface IBookStoreService
 {
     //Books
 
+    /// <summary>
+    /// Add the book and the author if not exist to the database
+    /// </summary>
+    /// <param name="book"></param>
+    /// <returns></returns>
     Task<Book> AddBookAsync(Book book);
     Task<Book> UpdateBookAsync(Book book);
     Task<IEnumerable<Book>> GetBooksAsync();
@@ -17,4 +22,7 @@ public interface IBookStoreService
     Task<Author> GetAuthorByIdAsync(int id);
     Task<IEnumerable<Author>> GetAuthorsAsync();
     Task<Author> UpdateAuthorAsync(Author book);
+
+
+
 }

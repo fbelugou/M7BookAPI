@@ -52,8 +52,8 @@ public static class DALExtension
             }   
         });
 
-        services.AddTransient<IBookRepository, BookRepositoryMariaDB>();
-        services.AddTransient<IAuthorRepository, AuthorRepositoryMariaDB>();
+
+        services.AddTransient<IUOW, UOW>();
         return services;
     }
 }

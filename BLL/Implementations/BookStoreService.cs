@@ -1,6 +1,7 @@
 ﻿
 
 using BLL.Interfaces;
+using DAL;
 using DAL.Repositories.Interfaces;
 using Domain.Entities;
 
@@ -8,20 +9,18 @@ namespace BLL.Implementations;
 internal class BookStoreService : IBookStoreService
 {
 
-    private readonly IAuthorRepository _authorRepository;
-    private readonly IBookRepository _bookRepository;
+    private readonly IUOW _dbContext;
 
-    public BookStoreService(IBookRepository bookRepository, IAuthorRepository authorRepository)
+    public BookStoreService(IUOW dbContext)
     {
-        bookRepository = _bookRepository;
-        authorRepository = _authorRepository;
+       _dbContext = dbContext;
     }
 
     //Books
 
     public Task<IEnumerable<Book>> GetBooksAsync()
     {
-        throw new NotImplementedException();
+        return _dbContext.Books.GetAllAsync();
     }
 
     public Task<Book> GetBookByIdAsync(int id)
@@ -29,9 +28,20 @@ internal class BookStoreService : IBookStoreService
         throw new NotImplementedException();
     }
 
-    public Task<Book> AddBookAsync(Book book)
+    public async Task<Book> AddBookAsync(Book book)
     {
-        throw new NotImplementedException();
+        _dbContext.BeginTransaction();
+
+        if(_dbContext.Authors.GetByIdAsync(book.Author.Id) is null)
+        {
+            _dbContext.Authors.AddAsync(book.Author);
+        }
+
+        var bookTask = _dbContext.Books.AddAsync(book);
+        
+        _dbContext.Commit();
+
+        return await bookTask;
     }
 
 
