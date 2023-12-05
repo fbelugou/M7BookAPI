@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
 namespace DAL.Repositories.Interfaces;
-public interface IBookRepository: IGenericReadRepository<int, Book>, IGenericWriteRepository<Book>
+public interface IBookRepository: IGenericReadRepository<int, Book>, IGenericWriteRepository<int, Book>
 {
 }

@@ -36,24 +36,22 @@ public static class DALExtension
             switch(options.DBType)
             {
                 case DBType.MariaDB:
-                  //  return new DBSessionMariaDB(options.DBConnectionString);
+                    return new DBSessionMariaDB(options.DBConnectionString);
                 case DBType.SQLServer:
-                  //  return new DBSessionSQLServer(options.DBConnectionString);
+                    return new DBSessionSqlServer(options.DBConnectionString);
                 case DBType.PostgreSQL:
                   //   return new DBSessionPostgreSQL(options.DBConnectionString);
                 case DBType.Oracle:
                   //  return new DBSessionOracle(options.DBConnectionString);
                 default:
-                  //  return new DBSessionMariaDB(options.DBConnectionString);
-
-                  // Stub for now
-                    return new DBSessionMariaDB(options.DBConnectionString);
+                    throw new NotImplementedException();
+                    
 
             }   
         });
 
+        services.AddTransient<IUOW, UOW>((services) => new UOW(services.GetRequiredService<IDBSession>(),  options.DBType) );
 
-        services.AddTransient<IUOW, UOW>();
         return services;
     }
 }

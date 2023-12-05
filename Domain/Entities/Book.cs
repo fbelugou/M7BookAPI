@@ -5,6 +5,7 @@
 /// </summary>
 public class Book : IEntity
 {
+
         /// <summary>
         /// Unique identifier
         /// </summary>
@@ -18,7 +19,7 @@ public class Book : IEntity
         /// <summary>
         /// Book title
         /// </summary>
-        public string Titre { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// Summary of the book

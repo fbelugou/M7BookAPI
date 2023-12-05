@@ -1,54 +1,75 @@
 ﻿using DAL.Repositories.Implementations.MariaDB;
+using DAL.Repositories.Implementations.SqlServer;
 using DAL.Repositories.Interfaces;
 using DAL.Sessions.Interfaces;
+using System.Reflection;
 
 namespace DAL;
 internal class UOW : IUOW
 {
-    private readonly IDBSession db;
+    private readonly IDBSession _db;
+    private readonly DBType _typeDB;
+    private readonly Dictionary<Type, Type> _currentRepositories;
 
-    public UOW(IDBSession dBSession)
+    private readonly Dictionary<Type, Type> RepositoriesMysql = new Dictionary<Type, Type>()
     {
-        db = dBSession;
+        { typeof(IBookRepository), typeof(BookRepositoryMariaDB) },
+        { typeof(IAuthorRepository), typeof(AuthorRepositoryMariaDB) }
+    };
+    private readonly Dictionary<Type, Type> RepositoriesSQLServer = new Dictionary<Type, Type>()
+    {
+        { typeof(IBookRepository), typeof(BookRepositorySqlServer) },
+        { typeof(IAuthorRepository), typeof(AuthorRepositorySqlServer) }
+    };
+
+    public UOW(IDBSession dBSession, DBType typeDB)
+    {
+        _db = dBSession;
+        _typeDB = typeDB;
+        _currentRepositories = _typeDB switch
+        {
+            DBType.MariaDB => RepositoriesMysql,
+            DBType.SQLServer => RepositoriesSQLServer,
+            _ => throw new NotImplementedException()
+        };
     }
 
-    public IBookRepository Books => new BookRepositoryMariaDB(db);
-
-    public IAuthorRepository Authors => new AuthorRepositoryMariaDB(db);
+    public IBookRepository Books => Activator.CreateInstance(_currentRepositories[typeof(IBookRepository)], _db) as IBookRepository;
+    public IAuthorRepository Authors =>  Activator.CreateInstance(_currentRepositories[typeof(IAuthorRepository)], _db) as IAuthorRepository;
 
     public void BeginTransaction()
     {
-        if(db.Transaction is null)
+        if (_db.Transaction is null)
         {
-            db.Transaction = db.Connection.BeginTransaction();
+            _db.Transaction = _db.Connection.BeginTransaction();
         }
     }
 
     public void Commit()
     {
-        if(db.Transaction is not null)
+        if (_db.Transaction is not null)
         {
-            db.Transaction.Commit();
-            db.Transaction = null;
+            _db.Transaction.Commit();
+            _db.Transaction = null;
         }
     }
 
     public void Dispose()
     {
-        if(db.Transaction is not null)
+        if (_db.Transaction is not null)
         {
-            db.Transaction.Dispose();
-            db.Transaction = null;
+            _db.Transaction.Dispose();
+            _db.Transaction = null;
         }
-        db.Connection.Dispose();
+        _db.Connection.Dispose();
     }
 
     public void Rollback()
     {
-       if(db.Transaction is not null)
+        if (_db.Transaction is not null)
         {
-            db.Transaction.Rollback();
-            db.Transaction = null;
+            _db.Transaction.Rollback();
+            _db.Transaction = null;
         }
     }
 }

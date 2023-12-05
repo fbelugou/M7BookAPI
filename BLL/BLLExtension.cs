@@ -23,7 +23,10 @@ public static class BLLExtension
         services.AddTransient<IBookStoreService, BookStoreService>();
 
         //Register DAL services
-        services.AddDAL();
+        services.AddDAL(c =>  {
+            c.DBConnectionString = "DBConnectionString";
+            c.DBType = DBType.SQLServer;
+            });
 
 
         return services;

@@ -48,7 +48,7 @@ public class BookStoreController : APIBaseController
         {
             Id = book.Id,
             ISBN = book.ISBN,
-            Titre = book.Titre,
+            Titre = book.Title,
             Description = book.Description,
             AuthorId = book.AuthorId
         };
@@ -68,7 +68,7 @@ public class BookStoreController : APIBaseController
             AuthorId = CreateBookRequest.AuthorId.GetValueOrDefault(),
             Description = CreateBookRequest.Description,
             ISBN = CreateBookRequest.ISBN,
-            Titre = CreateBookRequest.Title
+            Title = CreateBookRequest.Title
         };
 
         //business logic
@@ -78,7 +78,7 @@ public class BookStoreController : APIBaseController
         {
             Id = result.Id,
             ISBN = result.ISBN,
-            Titre = result.Titre,
+            Titre = result.Title,
             Description = result.Description,
             AuthorId = result.AuthorId
         };

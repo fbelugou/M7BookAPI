@@ -18,7 +18,7 @@ internal class AuthorRepositoryMariaDB : IAuthorRepository
         throw new NotImplementedException();
     }
 
-    public Task<Author> DeleteAsync(Author entity)
+    public Task<bool> DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }

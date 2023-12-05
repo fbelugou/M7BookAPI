@@ -14,14 +14,14 @@ public interface IBookStoreService
     Task<Book> UpdateBookAsync(Book book);
     Task<IEnumerable<Book>> GetBooksAsync();
     Task<Book> GetBookByIdAsync(int id);
-    Task<Book> DeleteBookAsync(Book book);
+    Task<bool> DeleteBookAsync(int book);
 
     //Authors
-    Task<Author> AddAuthorAsync(Author book);
-    Task<Author> DeleteAuthorAsync(Author book);
+    Task<Author> AddAuthorAsync(Author author);
+    Task<bool> DeleteAuthorAsync(int authorId);
     Task<Author> GetAuthorByIdAsync(int id);
     Task<IEnumerable<Author>> GetAuthorsAsync();
-    Task<Author> UpdateAuthorAsync(Author book);
+    Task<Author> UpdateAuthorAsync(Author author);
 
 
 

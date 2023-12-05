@@ -18,70 +18,70 @@ internal class BookStoreService : IBookStoreService
 
     //Books
 
-    public Task<IEnumerable<Book>> GetBooksAsync()
+    public async Task<IEnumerable<Book>> GetBooksAsync()
     {
-        return _dbContext.Books.GetAllAsync();
+        return await _dbContext.Books.GetAllAsync();
     }
 
-    public Task<Book> GetBookByIdAsync(int id)
+    public async Task<Book> GetBookByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Books.GetByIdAsync(id);
     }
 
     public async Task<Book> AddBookAsync(Book book)
     {
         _dbContext.BeginTransaction();
 
-        if(_dbContext.Authors.GetByIdAsync(book.Author.Id) is null)
+        if(book.Author is not null && await _dbContext.Authors.GetByIdAsync(book.Author.Id) is null)
         {
-            _dbContext.Authors.AddAsync(book.Author);
+            await _dbContext.Authors.AddAsync(book.Author);
         }
 
-        var bookTask = _dbContext.Books.AddAsync(book);
+        var newBook = await _dbContext.Books.AddAsync(book);
         
         _dbContext.Commit();
 
-        return await bookTask;
+        return newBook;
     }
 
 
-    public Task<Book> UpdateBookAsync(Book book)
+    public async Task<Book> UpdateBookAsync(Book book)
     {
-        throw new NotImplementedException();
+       return await _dbContext.Books.UpdateAsync(book);
     }
 
 
-    public Task<Book> DeleteBookAsync(Book book)
+    public async Task<bool> DeleteBookAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Books.DeleteAsync(id);
     }
 
     //Authors 
 
-    public Task<IEnumerable<Author>> GetAuthorsAsync()
+    public async Task<IEnumerable<Author>> GetAuthorsAsync()
     {
-        throw new NotImplementedException();
+        return await _dbContext.Authors.GetAllAsync();
     }
 
-    public Task<Author> GetAuthorByIdAsync(int id)
+    public async Task<Author> GetAuthorByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Authors.GetByIdAsync(id);
     }
 
-    public Task<Author> AddAuthorAsync(Author book)
+    public async Task<Author> AddAuthorAsync(Author author)
     {
-        throw new NotImplementedException();
-    }
-
-
-    public Task<Author> UpdateAuthorAsync(Author book)
-    {
-        throw new NotImplementedException();
+        return await _dbContext.Authors.AddAsync(author);
     }
 
 
-    public Task<Author> DeleteAuthorAsync(Author book)
+    public async Task<Author> UpdateAuthorAsync(Author author)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Authors.UpdateAsync(author);
+    }
+
+
+    public async Task<bool> DeleteAuthorAsync(int id)
+    {
+        return await _dbContext.Authors.DeleteAsync(id);
     }
 }

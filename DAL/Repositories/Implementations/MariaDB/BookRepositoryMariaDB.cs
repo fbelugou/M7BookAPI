@@ -11,12 +11,13 @@ internal class BookRepositoryMariaDB : IBookRepository
     {
         db= dBSession;
     }
+
     public Task<Book> AddAsync(Book entity)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Book> DeleteAsync(Book entity)
+    public Task<bool> DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }
