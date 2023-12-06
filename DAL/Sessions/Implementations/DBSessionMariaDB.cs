@@ -11,6 +11,7 @@ internal class DBSessionMariaDB: IDBSession, IDisposable
 
     public DBSessionMariaDB(string connectionString)
     {
+        
         Connection = new MySqlConnection(connectionString);
         Connection.Open();
     }

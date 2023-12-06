@@ -35,13 +35,13 @@ public class BookStoreController : APIBaseController
     /// <param name="id">Unique identifier</param>
     /// <returns></returns>
     [HttpGet("books/{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> GetBook(int id)
     {
-        if(id <= 0) return BadRequest();
+        if(id <= 0) return BadRequest(); //1
 
         var book = await _bookStoreService.GetBookByIdAsync(id);
 
-        if (book is null) return NotFound();
+        if (book is null) return NotFound(); //2
 
         //DTO Response
         var response = new BookResponse
@@ -52,7 +52,7 @@ public class BookStoreController : APIBaseController
             Description = book.Description,
             AuthorId = book.AuthorId
         };
-        return Ok(response);
+        return Ok(response); //3
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class BookStoreController : APIBaseController
         };
 
 
-        return CreatedAtAction(nameof(Get),new {id = response.Id}, response);
+        return CreatedAtAction(nameof(GetBook),new {id = response.Id}, response);
     }
 
     /// <summary>

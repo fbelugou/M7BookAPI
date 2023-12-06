@@ -2,7 +2,9 @@
 using DAL.Repositories.Interfaces;
 using DAL.Sessions.Implementations;
 using DAL.Sessions.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace DAL;
 
@@ -32,7 +34,7 @@ public static class DALExtension
 
         //Register your services here
         services.AddScoped<IDBSession>((services) => {
-            
+           options.DBConnectionString = services.GetRequiredService<IConfiguration>().GetSection("ConnectionString").Value;
             switch(options.DBType)
             {
                 case DBType.MariaDB:
