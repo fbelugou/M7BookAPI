@@ -41,8 +41,6 @@ public class BookStoreController : APIBaseController
 
         var book = await _bookStoreService.GetBookByIdAsync(id);
 
-        if (book is null) return NotFound(); //2
-
         //DTO Response
         var response = new BookResponse
         {

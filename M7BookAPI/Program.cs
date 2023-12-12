@@ -1,11 +1,17 @@
 using BLL;
 using FluentValidation.AspNetCore;
+using M7BookAPI.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+#if !DEBUG
+    options.Filters.Add<ApiExceptionFilterAttribute>();
+#endif
+});
 builder.Services.AddBLL();
 
 //Maybe change in the future because it's not the best way to do it

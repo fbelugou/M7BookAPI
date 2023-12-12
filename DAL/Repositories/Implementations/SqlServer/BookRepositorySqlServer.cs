@@ -91,9 +91,11 @@ internal class BookRepositorySqlServer : IBookRepository
                              WHERE b.Id = @id";
 
         var parameters = new { Id = id };
-        var book = await _dbSession.Connection.QueryAsync<Book, Author, Book>
+        var result = await _dbSession.Connection.QueryAsync<Book, Author, Book>
               (query, (b, a) => { b.Author = a; return b; }, parameters, _dbSession.Transaction);
-        return book.FirstOrDefault();
+        var book = result.FirstOrDefault();
+        if(book == null) throw new NotFoundEntityException("BOOK", id);
+        return book;
     }
 
     public async Task<Book> UpdateAsync(Book book)
