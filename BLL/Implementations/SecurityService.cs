@@ -12,14 +12,12 @@ using System.Threading.Tasks;
 namespace BLL.Implementations;
 internal class SecurityService : ISecurityService
 {
-
     public IConfiguration _configuration { get; }
+
     public SecurityService(IConfiguration configuration)
     {  
         _configuration = configuration;
     }
-
-
 
     public Task<string> SignIn(string username, string password)
     {
@@ -42,34 +40,29 @@ internal class SecurityService : ISecurityService
                new Claim(ClaimTypes.NameIdentifier, username) //ID User (NameIdentifier)  == (Subject)
            };
 
-
         //Add Roles
         roles.ForEach(role =>
         {
             claims.Add(new Claim(ClaimTypes.Role, role));
         });
 
-
         //Signing Key
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
-
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
 
         //Expiration time
         var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
 
         //Create JWT Token Object
         var token = new JwtSecurityToken(
-            _configuration["JwtIssuer"],
-            _configuration["JwtIssuer"],
-            claims,
-            expires: expires,
-            signingCredentials: creds
+            _configuration["JwtIssuer"],//Issuer
+            _configuration["JwtIssuer"],//Audience
+            claims,//Charge utile (Payload)
+            expires: expires, //Expiration time
+            signingCredentials: creds //Signing Key
         );
 
         //Serializes a JwtSecurityToken into a JWT in Compact Serialization Format.
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
 }
