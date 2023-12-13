@@ -25,7 +25,7 @@ public static class BLLExtension
         
         //Register your BLL services here
         services.AddTransient<IBookStoreService, BookStoreService>();
-
+        services.AddTransient<ISecurityService, SecurityService>();
         //Register DAL services
         services.AddDAL(o => o.DBType = DBType.SQLServer);
 

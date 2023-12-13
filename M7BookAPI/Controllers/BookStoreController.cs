@@ -3,7 +3,9 @@ using Domain;
 using Domain.DTO.Requests;
 using Domain.DTO.Responses;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace M7BookAPI.Controllers;
 
@@ -24,8 +26,10 @@ public class BookStoreController : APIBaseController
     /// </summary>
     /// <returns>Returns all books on API</returns>
     [HttpGet("books")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAll()
     {
+       var username = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
        return Ok(await _bookStoreService.GetBooksAsync());
     }
 
