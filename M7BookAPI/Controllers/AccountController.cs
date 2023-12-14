@@ -15,7 +15,18 @@ public class AccountController: APIBaseController
          _securityService = securityService;
     }
 
-    [HttpPost("login")]
+    [HttpPost("loginSwagger")]
+    [AllowAnonymous]
+    public async Task<IActionResult> LoginDocSwagger([FromForm] LoginRequest loginRequest )
+    {
+        var result = await _securityService.SignIn(loginRequest.username, loginRequest.password);
+
+        if (result is null) return BadRequest();
+
+        else  return Ok(new{access_token = result});
+    }
+
+    [HttpPost("Login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest )
     {
@@ -23,6 +34,6 @@ public class AccountController: APIBaseController
 
         if (result is null) return BadRequest();
 
-        else  return Ok(new LoginResponse() {AccessToken = result});
+        else  return Ok(new LoginResponse{AccessToken= result});
     }
 }
