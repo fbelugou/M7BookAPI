@@ -1,10 +1,12 @@
 using BLL;
 using FluentValidation.AspNetCore;
+using M7BookAPI.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
 {
 #if !DEBUG
-    options.Filters.Add<ApiExceptionFilterAttribute>();
+   options.Filters.Add<ApiExceptionFilterAttribute>();
 #endif
 });
 builder.Services.AddBLL();
@@ -101,3 +103,5 @@ app.UseSwaggerUI(c =>
 app.MapControllers();
 
 app.Run();
+
+public partial class Program {}

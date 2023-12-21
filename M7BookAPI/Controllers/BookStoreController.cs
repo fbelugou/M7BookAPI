@@ -26,10 +26,9 @@ public class BookStoreController : APIBaseController
     /// </summary>
     /// <returns>Returns all books on API</returns>
     [HttpGet("books")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAll()
     {
-       var username = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+      // var username = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
        return Ok(await _bookStoreService.GetBooksAsync());
     }
 
@@ -39,11 +38,14 @@ public class BookStoreController : APIBaseController
     /// <param name="id">Unique identifier</param>
     /// <returns></returns>
     [HttpGet("books/{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetBook(int id)
     {
         if(id <= 0) return BadRequest(); //1
 
         var book = await _bookStoreService.GetBookByIdAsync(id);
+
+        if(book == null) return NotFound(); //2
 
         //DTO Response
         var response = new BookResponse

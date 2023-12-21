@@ -5,9 +5,7 @@ namespace M7BookAPI.Controllers;
 
 [ApiController]
 [Route("api/[Controller]")]
-[Authorize]
+//[Authorize]
 public abstract class APIBaseController: ControllerBase
 {
-
-    
 }

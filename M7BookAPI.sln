@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{E0B48660-0D7E-43AA-9E26-7B9FBA223E19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUnitaire", "TestUnitaire\TestUnitaire.csproj", "{D0B6D4B8-F99B-4489-8466-0EF9629F412F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUnitaire", "TestUnitaire\TestUnitaire.csproj", "{D0B6D4B8-F99B-4489-8466-0EF9629F412F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestIntegrations", "TestIntegrations\TestIntegrations.csproj", "{B09605E3-A0EC-4725-B622-1849EADBBAA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D0B6D4B8-F99B-4489-8466-0EF9629F412F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0B6D4B8-F99B-4489-8466-0EF9629F412F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0B6D4B8-F99B-4489-8466-0EF9629F412F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B09605E3-A0EC-4725-B622-1849EADBBAA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B09605E3-A0EC-4725-B622-1849EADBBAA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B09605E3-A0EC-4725-B622-1849EADBBAA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B09605E3-A0EC-4725-B622-1849EADBBAA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
