@@ -21,7 +21,6 @@ public class AbstractIntegrationTest : IClassFixture<APIWebApplicationFactory>
 
     public void Login()
     {
-        _client.PostAsJsonAsync("")
 
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "");
     }
