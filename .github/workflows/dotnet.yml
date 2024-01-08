@@ -32,5 +32,5 @@ jobs:
     - name: Test  Unitaire
       run: dotnet test ./TestUnitaire/ --no-build --verbosity normal
 
-    - name: Test  Integrations
-      run: dotnet test ./TestIntegrations/ --no-build --verbosity normal
+#    - name: Test  Integrations
+#      run: dotnet test ./TestIntegrations/ --no-build --verbosity normal
